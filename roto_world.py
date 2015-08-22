@@ -1,3 +1,4 @@
+import re
 import os
 from datetime import date
 from bs4 import BeautifulSoup
@@ -9,11 +10,12 @@ class RWScraper(object):
         self.url = 'http://www.rotoworld.com/playernews/nfl/football-player-news'
         self._team_news = dd(lambda : dd(list))
         self.same_day = True
-        self.date = date.today().day
+        self.date = (0, date.today().day, 0)
 
     def _get_player_info(self, player_box):
-        date = int(player_box.select('.date')[0].contents[0][4:6])
-        if date != self.date:
+        date_str = player_box.select('.date')[0].contents[0]
+        date = int(re.findall(r'^.* (\d+),.*$', date_str)[0])
+        if date != self.date[1]:
             return False
         player_dict = {}
         player_info = player_box.select('.player a')
@@ -34,6 +36,11 @@ class RWScraper(object):
     def _get_player_news(self):
         driver = webdriver.PhantomJS()
         driver.get(self.url)
+        if self.date[0]:
+            date_picker = driver.find_element_by_id('tbDatepicker')
+            date_picker.click()
+            date_picker.send_keys('{}/{}/{}'.format(self.date[0], self.date[1], self.date[2]))
+            driver.find_element_by_id('cp1_ctl01_btnFilterResults').click()
         while self.same_day:
             soup = BeautifulSoup(driver.page_source, 'html.parser')
             player_boxes = soup.select('.pb')
