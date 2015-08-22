@@ -8,12 +8,12 @@ class RWScraper(object):
     def __init__(self):
         self.url = 'http://www.rotoworld.com/playernews/nfl/football-player-news'
         self._team_news = dd(lambda : dd(list))
-        self.still_today = True
-        self.today = date.today().day
+        self.same_day = True
+        self.date = date.today().day
 
     def _get_player_info(self, player_box):
         date = int(player_box.select('.date')[0].contents[0][4:6])
-        if date != self.today:
+        if date != self.date:
             return False
         player_dict = {}
         player_info = player_box.select('.player a')
@@ -34,13 +34,15 @@ class RWScraper(object):
     def _get_player_news(self):
         driver = webdriver.PhantomJS()
         driver.get(self.url)
-        while self.still_today:
+        while self.same_day:
             soup = BeautifulSoup(driver.page_source, 'html.parser')
             player_boxes = soup.select('.pb')
-            self.still_today = self._boxes_to_news(player_boxes)
+            self.same_day = self._boxes_to_news(player_boxes)
             driver.find_element_by_id('cp1_ctl01_btnNavigate1').click()
 
-    def scrape(self):
+    def scrape(self, date='today'):
+        if date != 'today':
+            self.date = date
         self._get_player_news()
         os.remove('ghostdriver.log')
 
