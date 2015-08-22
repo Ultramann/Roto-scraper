@@ -14,7 +14,7 @@ class RWScraper(object):
 
     def _get_player_info(self, player_box):
         date_str = player_box.select('.date')[0].contents[0]
-        date = int(re.findall(r'^.* (\d+),.*$', date_str)[0])
+        date = int(re.findall(r'^.* (\d+) |,.*$', date_str)[0])
         if date != self.date[1]:
             return False
         player_dict = {}
