@@ -3,6 +3,7 @@ import os
 from datetime import date
 from bs4 import BeautifulSoup
 from selenium import webdriver
+from colored import fg, bg, attr
 from collections import defaultdict as dd
 
 class RWScraper(object):
@@ -54,8 +55,34 @@ class RWScraper(object):
         os.remove('ghostdriver.log')
 
     def print_news(self, impact=False):
+        tcd = {'Broncos': {'fg': 208, 'bg': 18},
+               'Vikings': {'fg': 11, 'bg': 54},
+               'Falcons': {'fg': 0, 'bg': 1},
+               'Saints': {'fg': 136, 'bg': 0},
+               'Chargers': {'fg': 226, 'bg': 21},
+               'Lions': {'fg': 27, 'bg': 244}, 
+               'Browns': {'fg': 202, 'bg': 52},
+               'Eagles': {'fg': 231, 'bg': 29},
+               'Steelers': {'fg': 11, 'bg': 0}, 
+               'Giants': {'fg': 9, 'bg': 19},
+               'Buccaneers': {'fg': 0, 'bg': 9}, 
+               'Cardinals': {'fg': 0, 'bg': 1},
+               'Chiefs': {'fg': 196, 'bg': 0},
+               'Jaguars': {'fg': 11, 'bg': 30},
+               'Redskins': {'fg': 231, 'bg': 88},
+               'Jets': {'fg': 231, 'bg': 22},
+               'Ravens': {'fg': 11, 'bg': 55},
+               'Colts': {'fg': 15, 'bg': 18},
+               'Packers': {'fg': 11, 'bg': 22},
+               'Titans': {'fg': 231, 'bg': 4},
+               'Free Agent': {'fg': 0, 'bg': 231},
+               'Bills': {'fg': 231, 'bg': 27},
+               'Texans': {'fg': 18, 'bg': 196},
+               '49ers': {'fg': 15, 'bg': 124},
+               'Seahawks': {'fg': 10, 'bg': 21},
+               'Panthers': {'fg': 0, 'bg': 33}}
         for team in self._team_news.keys():
-            print team
+            print '%s%s %s %s' % (fg(tcd[team]['fg']), bg(tcd[team]['bg']), team, attr(0))
             for player in self._team_news[team].keys():
                 for news in self._team_news[team][player]:
                     print '\t* ' + news[0]
