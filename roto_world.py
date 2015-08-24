@@ -14,9 +14,8 @@ class RWScraper(object):
         self.date = (0, date.today().day, 0)
 
     def _get_player_info(self, player_box):
-        #import pdb; pdb.set_trace()
         date_str = player_box.select('.date')[0].contents[0]
-        date = int(re.findall(r'^.* (\d+?)[ ,].*$', date_str)[0])
+        date = int(re.findall(r'^.* (\d+)[ ,].*$', date_str)[0])
         if date != self.date[1]:
             return False
         player_dict = {}
@@ -84,6 +83,8 @@ class RWScraper(object):
                '49ers':     {'fg': 15, 'bg': 124},
                'Seahawks':  {'fg': 10, 'bg': 21},
                'Panthers':  {'fg': 0, 'bg': 33},
+               'Rams':      {'fg': 184, 'bg': 19},
+               'Raiders':   {'fg': 247, 'bg': 0},
                'Bears':     {'fg': 208, 'bg': 17}}
         for team in self._team_news.keys():
             print '%s%s %s %s' % (fg(tcd[team]['fg']), bg(tcd[team]['bg']), team, attr(0))
