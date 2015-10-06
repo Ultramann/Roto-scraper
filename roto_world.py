@@ -41,12 +41,12 @@ class RWScraper(object):
             date_picker = driver.find_element_by_id('tbDatepicker')
             date_picker.click()
             date_picker.send_keys('{}/{}/{}'.format(self._date[0], self._date[1], self._date[2]))
-            driver.find_element_by_id('cp1_ctl01_btnFilterResults').click()
+            driver.find_element_by_id('cp1_ctl00_btnFilterResults').click()
         while self._same_day:
             soup = BeautifulSoup(driver.page_source, 'html.parser')
             player_boxes = soup.select('.pb')
             self._same_day = self._boxes_to_news(player_boxes)
-            driver.find_element_by_id('cp1_ctl01_btnNavigate1').click()
+            driver.find_element_by_id('cp1_ctl00_btnNavigate1').click()
 
     def scrape(self, date='today'):
         if date != 'today':
