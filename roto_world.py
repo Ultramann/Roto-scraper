@@ -7,6 +7,23 @@ from colored import fg, bg, attr
 from collections import defaultdict as dd
 
 class RWScraper(object):
+    '''
+    Class for grabbing player news from www.rotoworld.com/playernews/nfl/football-player-news
+    for any given day, default is the current day. 
+    Methods: scrape -     If a specific day is to be specified for scraping, 
+                          it should be formatted as a tuple: 
+                            (month, day, year)
+                          and passed to the scrape method through the date argument.
+
+             print_news - Used once scrape has been called, the corresponding day's data is stored
+                          on the instance. By default, does not print the impact section of the
+                          player news segments. To print the impact section, pass True to the
+                          impact argument.
+
+    Dependencies:         selenium
+                          colored
+                          bs4
+    '''
     def __init__(self):
         self.url = 'http://www.rotoworld.com/playernews/nfl/football-player-news'
         self._team_news = dd(lambda : dd(list))
@@ -89,9 +106,9 @@ class RWScraper(object):
                'Raiders':   {'fg': 247, 'bg': 0},
                'Bears':     {'fg': 208, 'bg': 17}}
         for team in self._team_news.keys():
-            print '%s%s %s %s' % (fg(tcd[team]['fg']), bg(tcd[team]['bg']), team, attr(0))
+            print('%s%s %s %s' % (fg(tcd[team]['fg']), bg(tcd[team]['bg']), team, attr(0)))
             for player in self._team_news[team].keys():
                 for news in self._team_news[team][player]:
-                    print '\t* ' + news[0]
+                    print('\t* ' + news[0])
                     if impact == True:
-                        print '\t\t- ' + news[1].strip()
+                        print('\t\t- ' + news[1].strip())
