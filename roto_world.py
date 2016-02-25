@@ -104,7 +104,8 @@ class RWScraper(object):
                'Bengals':   {'fg': 202, 'bg': 0},
                'Rams':      {'fg': 184, 'bg': 19},
                'Raiders':   {'fg': 247, 'bg': 0},
-               'Bears':     {'fg': 208, 'bg': 17}}
+               'Bears':     {'fg': 208, 'bg': 17},
+               'Player':    {'fg': 0, 'bg': 180}}
         for team in self._team_news.keys():
             print('%s%s %s %s' % (fg(tcd[team]['fg']), bg(tcd[team]['bg']), team, attr(0)))
             for player in self._team_news[team].keys():
