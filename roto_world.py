@@ -64,6 +64,7 @@ class RWScraper(object):
             player_boxes = soup.select('.pb')
             self._same_day = self._boxes_to_news(player_boxes)
             driver.find_element_by_id('cp1_ctl00_btnNavigate1').click()
+        driver.quit()
 
     def scrape(self, date='today'):
         if date != 'today':
